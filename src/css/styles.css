@@ -1,0 +1,52 @@
+img {
+  width: 100%;
+  max-height: auto;
+  display: block;
+}
+
+.search-form {
+  background: teal;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.gallery {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+
+  padding: 20px 10px;
+}
+
+.photo-card {
+  flex-basis: calc((100% - 30px) / 5);
+
+  border: 1px solid gray;
+}
+.info {
+  display: flex;
+  justify-content: space-around;
+}
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.load-more {
+  display: block;
+  margin: auto;
+}
+
+.is-hidden {
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity var(--animation-duration) var(--animation-timing-function),
+    visibility var(--animation-duration) var(--animation-timing-function);
+}
