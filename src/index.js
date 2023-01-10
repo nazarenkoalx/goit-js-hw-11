@@ -11,10 +11,6 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 const searchForm = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
 const loadMoreButton = document.querySelector('.load-more');
-let galleryLightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionDelay: 250,
-});
 loadMoreButton.classList.add('is-hidden');
 
 let page = 1;
@@ -49,6 +45,9 @@ function onSubmit(evt) {
         createGalleryMarkup(responseArr);
         showLoadMoreButton();
         limitPageChecker(totalPages);
+        Notiflix.Notify.success(
+          `Hooray! We found ${response.data.totalHits} images.`
+        );
         page += 1;
       }
     })
@@ -82,30 +81,34 @@ function createGalleryMarkup(searchResponse) {
       { webformatURL, largeImageURL, tags, likes, views, comments, downloads }
     ) =>
       acc +
-      `<a href=${largeImageURL} class="photo-card">
-      <img src=${webformatURL} alt="tags" title=${tags} loading="lazy"/>
-</a>
-      `,
+      `<div class="photo-card"><a href=${largeImageURL}>
+  <img src=${webformatURL} alt=${tags} loading="lazy" width="350" height="200"/></a>
+  <div class="info">
+    <p class="info-item">
+      <b>Likes</b>${likes}
+    </p>
+    <p class="info-item">
+      <b>Views</b>${views}
+    </p>
+    <p class="info-item">
+      <b>Comments</b>${comments}
+    </p>
+    <p class="info-item">
+      <b>Downloads</b>${downloads}
+    </p>
+  </div>
+</div>`,
     ''
   );
 
   gallery.insertAdjacentHTML('beforeend', markup);
+  let galleryLightbox = new SimpleLightbox('.gallery a', {
+    captionsData: 'alt',
+    captionDelay: 250,
+  });
+  galleryLightbox.on('show.simplelightbox');
+  galleryLightbox.refresh();
 }
-
-// <div class="info">
-//   <p class="info-item">
-//     <b>Likes</b>${likes}
-//   </p>
-//   <p class="info-item">
-//     <b>Views</b>${views}
-//   </p>
-//   <p class="info-item">
-//     <b>Comments</b>${comments}
-//   </p>
-//   <p class="info-item">
-//     <b>Downloads</b>${downloads}
-//   </p>
-// </div>;
 
 function clearMarkup() {
   gallery.innerHTML = '';
