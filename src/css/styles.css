@@ -40,6 +40,9 @@ img {
 .load-more {
   display: block;
   margin: auto;
+  padding: 10px;
+  background: teal;
+  color: wheat;
 }
 
 .is-hidden {
