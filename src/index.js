@@ -33,26 +33,31 @@ function onSubmit(evt) {
   evt.preventDefault();
   clearMarkup();
   const searchQuery = searchForm.elements.searchQuery.value;
-  goSearch(searchQuery)
-    .then(function (response) {
-      const responseArr = response.data.hits;
-      let totalPages = response.data.totalHits / fotoPerPage;
-      if (responseArr.length === 0) {
-        Notiflix.Notify.failure(
-          '"Sorry, there are no images matching your search query. Please try again."'
-        );
-      } else {
-        createGalleryMarkup(responseArr);
-        showLoadMoreButton();
-        limitPageChecker(totalPages);
-        Notiflix.Notify.success(
-          `Hooray! We found ${response.data.totalHits} images.`
-        );
-        page += 1;
-      }
-    })
-    .catch(error => console.log(error));
-  // evt.currentTarget.reset();
+  if (searchQuery == '') {
+    Notiflix.Notify.failure(
+      '"Please, fill the serch query field and try again."'
+    );
+  } else {
+    goSearch(searchQuery)
+      .then(function (response) {
+        const responseArr = response.data.hits;
+        let totalPages = response.data.totalHits / fotoPerPage;
+        if (responseArr.length === 0) {
+          Notiflix.Notify.failure(
+            '"Sorry, there are no images matching your search query. Please try again."'
+          );
+        } else {
+          createGalleryMarkup(responseArr);
+          showLoadMoreButton();
+          limitPageChecker(totalPages);
+          Notiflix.Notify.success(
+            `Hooray! We found ${response.data.totalHits} images.`
+          );
+          page += 1;
+        }
+      })
+      .catch(error => console.log(error));
+  }
 }
 
 async function goSearch(query) {
