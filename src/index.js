@@ -1,6 +1,3 @@
-// следить за кнопкой загрузить еще
-// сделать пагинацию
-
 const axios = require('axios').default;
 import Notiflix from 'notiflix';
 import './css/styles.css';
